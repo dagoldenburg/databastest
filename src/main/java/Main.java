@@ -12,6 +12,7 @@ public class Main {
         DbI dbReference = new PostGreSQLDb();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Write username:");
+        System.out.println("sss");
         String username = scanner.nextLine();
         System.out.println("Write password");
         String password = scanner.nextLine();
