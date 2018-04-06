@@ -9,5 +9,7 @@ public interface DbI {
     boolean authenticateUser(String usernameTo, String password);
     boolean makeTransaction(String usernameTo, String usernameFrom, double amount);
     List<Transaction> retrieveAllTransactions(String username);
+    List<Transaction> retrieveNrOfTransactions(String username, int nrOfTransactions);
+    List<String> retrieveAllUsernames();
 
 }

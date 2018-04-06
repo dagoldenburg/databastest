@@ -106,8 +106,54 @@ public class PostGreSQLDb implements DbI {
             }
         } catch (SQLException e) {
             Log.e(this,"Could not retrieve transactions");
+            e.printStackTrace();
         }
         return trans;
+    }
+
+
+    /**
+     * Retrieves X last transactions from a user in the form of a LinkedList
+     * @param username
+     * @param nrOfTransactions
+     * @return returns the last X transactions
+     */
+    public LinkedList<Transaction> retrieveNrOfTransactions(String username,int nrOfTransactions) {
+        String selectString ="SELECT * FROM transactions WHERE touser=? LIMIT ?;";
+        LinkedList<Transaction> trans = new LinkedList<Transaction>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(selectString);
+            ps.setString(1,username);
+            ps.setInt(2,nrOfTransactions);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                trans.add(new Transaction(rs.getDouble("amount"),
+                        rs.getString("touser"),rs.getString("fromuser"),rs.getInt("transactionid")));
+            }
+        } catch (SQLException e) {
+            Log.e(this,"Could not retrieve transactions");
+            e.printStackTrace();
+        }
+        return trans;
+    }
+
+
+    /**
+     * @return A linkedlist of strings with all the usernames available in the database.
+     */
+    public LinkedList<String> retrieveAllUsernames(){
+        String selectString = "SELECT name FROM users";
+        LinkedList<String> usernames = new LinkedList<String>();
+        try{
+            PreparedStatement ps = connection.prepareStatement(selectString);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                usernames.add(new String(rs.getString("name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usernames;
     }
 
 }
