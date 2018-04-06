@@ -112,15 +112,16 @@ public class PostGreSQLDb implements DbI {
     }
 
 
-    /**
+        /**
      * Retrieves X last transactions from a user in the form of a LinkedList
      * @param username
      * @param nrOfTransactions
      * @return returns the last X transactions
      */
     public LinkedList<Transaction> retrieveNrOfTransactions(String username,int nrOfTransactions) {
-        String selectString ="SELECT * FROM transactions WHERE touser=? LIMIT ?;";
+        String selectString ="SELECT * FROM transactions WHERE fromuser=? ORDER BY transactionid desc LIMIT ?;";
         LinkedList<Transaction> trans = new LinkedList<Transaction>();
+        Log.i(this, "Getting nr transactions " + nrOfTransactions);
         try {
             PreparedStatement ps = connection.prepareStatement(selectString);
             ps.setString(1,username);
